@@ -1,0 +1,61 @@
+.addlist-container {
+  display: flex;
+  flex-direction: column;
+  border: 0.063rem  solid #e6e8e9;
+  gap: 0.625rem;
+  padding: 0.938rem 1.25rem;
+  margin: 0.625rem auto 1.25rem auto;
+  width: 31.25rem;
+}
+.input-task,
+.input-description {
+  outline: none;
+  padding: 0.938rem 0.75rem;
+  border-radius: 0.25rem;
+  border: 0.063rem  solid #e6e8e9;
+  width: 90%;
+}
+.Add-task {
+  background: rgb(6, 159, 57);
+  text-align: center;
+  color: white;
+  padding: 0.313rem 0.625rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.938rem;
+  border: none;
+  width: 29.75rem;
+  gap: 7.5rem;
+  height: 2.5rem;
+}
+.Add-task:hover {
+  background: rgba(6, 159, 57, 0.925);
+}
+.Add-taskdisabled{
+  background: rgb(169, 172, 170);
+  text-align: center;
+  color: white;
+  padding: 0.313rem 0.625rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.938rem;
+  border: none;
+  width: 476px;
+  gap: 7.5rem;
+  height: 2.5rem;
+
+}
+.loader {
+  width: 0.938rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  animation: l5 1s infinite linear alternate;
+}
+@keyframes l5 {
+    0%  {box-shadow: 20px 0 #000, -20px 0 #0002;background: #000 }
+    33% {box-shadow: 20px 0 #000, -20px 0 #0002;background: #0002}
+    66% {box-shadow: 20px 0 #0002,-20px 0 #000; background: #0002}
+    100%{box-shadow: 20px 0 #0002,-20px 0 #000; background: #000 }
+}
