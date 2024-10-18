@@ -1,4 +1,3 @@
-
 import "./ListPage.css";
 import Addlist from "../Components/Addlist";
 
@@ -10,7 +9,3 @@ export default function ListPage() {
     </div>
   );
 }
-
-
-
-

@@ -1,7 +1,7 @@
 import './Logout.css'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 export default function Logout() {
-    const navigate=useNavigate();
+    const navigate=useNavigate()
     const handleLogout=()=>{
          localStorage.removeItem("LoginStatus")
          navigate('/')
