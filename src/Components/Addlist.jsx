@@ -14,6 +14,10 @@ export default function Addlist() {
   // useEffect(() => {
   //   localStorage.getItem("tasks", JSON.stringify(tasks));
   // }, [tasks]);
+  useEffect(() => {
+    console.log("Tasks updated:", tasks);
+  }, [tasks]);
+
   const location = useLocation();
   const data = location.state;
   console.log(data, "addlist");
@@ -67,6 +71,7 @@ export default function Addlist() {
         <div className="addlist-container">
           <Logout />
           <input
+            data-testid="input-task"
             className="input-task"
             type="text"
             placeholder="Enter a Todo..."

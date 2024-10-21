@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1729249389706" clover="3.2.0">
-  <project timestamp="1729249389706" name="All files">
+<coverage generated="1729513679604" clover="3.2.0">
+  <project timestamp="1729513679604" name="All files">
     <metrics statements="124" coveredstatements="114" conditionals="12" coveredconditionals="12" methods="5" coveredmethods="3" elements="141" coveredelements="129" complexity="0" loc="124" ncloc="124" packages="1" files="1" classes="1"/>
     <file name="SignUp.jsx" path="/Users/uidesign/Documents/problem/todo-list-testing/client/src/Pages/SignUp.jsx">
       <metrics statements="124" coveredstatements="114" conditionals="12" coveredconditionals="12" methods="5" coveredmethods="3"/>

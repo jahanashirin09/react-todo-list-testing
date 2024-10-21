@@ -23,10 +23,10 @@ export default function ListComponent({
                 Delete
               </button>
               <button className="move-up" onClick={() => handleComplete(task)}>
-                <i className="fa-solid fa-circle-check"></i>
+                {/* <i className="fa-solid fa-circle-check"></i> */}complete
               </button>
               <button className="move-down" onClick={() => handleEdit(task)}>
-                <i className="fa-solid fa-pen-to-square"></i>
+                {/* <i className="fa-solid fa-pen-to-square"></i> */}edit
               </button>
             </div>
           </li>
