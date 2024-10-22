@@ -13,35 +13,6 @@ describe("SignUp", () => {
       </GoogleOAuthProvider>
     </BrowserRouter>
     );
-  // it("google authentication valid sighup",async()=>{
-  //   user.setup()
-  //     const mockNavigate = vi.fn();
-  //     vi.mock('react-router-dom', () => ({
-  //       useNavigate: () => mockNavigate,
-  //     }));
-  //     await userEvent.click(screen.getByText(/google login/i));
-  //   const storedData = localStorage.getItem('mocked_email@example.com');
-  //   expect(storedData).toBeTruthy();
-  //   expect(mockNavigate).toHaveBeenCalledWith('/');
-  // })
-  // it('should handle Google login error', async () => {
-  //   vi.mock('@react-oauth/google', ({ onError }) => ({
-  //     GoogleLogin: () => (
-  //       <button
-  //         onClick={() => {
-  //           const errorResponse = new Error('Google login failed'); 
-  //           onError(errorResponse);
-  //         }}
-  //       >
-  //         Google Login
-  //       </button>
-  //     ),
-  //   }));
-  //   const consoleErrorSpy = vi.spyOn(console, 'error');
-  //   await userEvent.click(screen.getByText(/google login/i));
-  //   expect(consoleErrorSpy).toHaveBeenCalledWith('Google login failed:', expect.any(Error));
-  //   consoleErrorSpy.mockRestore();
-  // });
   it("sign up heading", () => {
     const signupHeading = screen.getByText("SignUp");
     expect(signupHeading).toBeInTheDocument;

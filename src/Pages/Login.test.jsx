@@ -149,9 +149,7 @@ describe("Login Page", () => {
   it("should set error for invalid user", async () => {
     const data = { email: "test@example.com", password: "wrongpassword" };
     const mockUser = { email: "test@example.com", password: "password123" };
-
     window.localStorage.getItem.mockReturnValue(JSON.stringify(mockUser));
-
     const onsubmitFtn = async (data) => {
       setShowLoader(true);
       setTimeout(() => {
@@ -161,8 +159,7 @@ describe("Login Page", () => {
       const item = localStorage.getItem(loginEmail);
       if (!item) {
         setError(ERROR_MESSAGES.ACCOUNT_NOT_EXIST);
-        return;
-      }
+        return;}
       const parsedItem = JSON.parse(item);
       const { email: signupEmail, password: signupPassword } = parsedItem;
       if (signupEmail === data.email && signupPassword === data.password) {
@@ -173,9 +170,7 @@ describe("Login Page", () => {
       } else {
         localStorage.setItem(LoginStatus, "");
         setError(ERROR_MESSAGES.INVALID_USER);
-      }
-    };
-
+      }};
     await onsubmitFtn(data);
     expect(setShowLoader).toHaveBeenCalledWith(true);
     expect(window.localStorage.getItem).toHaveBeenCalledWith(data.email);
