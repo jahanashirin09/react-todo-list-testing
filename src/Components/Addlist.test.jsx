@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import Addlist from "./Addlist";
 import user, { userEvent } from "@testing-library/user-event";
-import ListComponent from "./ListComponent";
+
 describe("Addlist Component", () => {
   render(
     <BrowserRouter>
@@ -15,10 +15,7 @@ describe("Addlist Component", () => {
       default: () => <div>logout</div>,
     };
   });
-  const tasks = [
-    { id: '1', title: 'Test Task 1', completed: false },
-    { id: '2', title: 'Test Task 2', completed: false },
-  ];
+
   it("renders the input and button correctly", async () => {
     const input = screen.getByTestId("input-task");
     const button = screen.getByRole("button", { name: /add task/i });
@@ -52,18 +49,7 @@ describe("Addlist Component", () => {
     expect(screen.queryByText("delete")).not.toBeInTheDocument();
   });
   it("complete the task", async () => {
-    const handleComplete = vi.fn();
-    render(
-      <ListComponent
-        tasks={tasks}
-        handleComplete={(task) => {
-          const updatedTasks = tasks.map((t) =>
-            t.id === task.id ? { ...t, completed: !t.completed } : t
-          );
-          handleComplete(updatedTasks);
-        }}
-      />)
-    user.setup();
+ 
     const input = screen.getByTestId("input-task");
     const button = screen.getByRole("button", { name: /add task/i });
     await userEvent.type(input, "complete");
@@ -71,11 +57,11 @@ describe("Addlist Component", () => {
     const completeButtons = screen.getAllByRole("button", { name: "complete" });
     const completed_element = completeButtons[completeButtons.length -1];
     await user.click(completed_element);
-    expect(handleComplete).toHaveBeenCalledWith([
-      { id: '1', title: 'Test Task 1', completed: false },
-      { id: '2', title: 'Test Task 2', completed: true},
-    ]);
-  
+    const firstTaskInput = screen.getByDisplayValue('updated');
+    expect(firstTaskInput).toHaveClass('text-task');
+    expect(firstTaskInput).not.toHaveClass('text-taskcompleted');
+    const secondTaskInput = screen.getByDisplayValue('complete');
+    expect(secondTaskInput).toHaveClass('text-taskcompleted');
   });
   it("render the logout component ", async () => {
     expect(screen.getByText("logout")).toBeInTheDocument();

@@ -125,7 +125,7 @@ export default function SignUp() {
             <p className="error-message">{errors.confirmPassword.message}</p>
           )}
         </div>
-        <button to="./login" className="signup-button" type="submit">
+        <button to="./login" className="signup-button" data-testid="sighnup-button"type="submit">
           Sign Up
         </button>
         <div className="login-text-box">

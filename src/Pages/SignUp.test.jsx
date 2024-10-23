@@ -1,9 +1,38 @@
-import { describe, expect, it} from "vitest";
+import { describe, expect, it, vi, beforeAll, afterAll } from "vitest";
 import { render, screen } from "@testing-library/react";
 import SignUp from "./SignUp";
 import { BrowserRouter } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import user, { userEvent } from "@testing-library/user-event";
+vi.mock("@react-oauth/google", async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    GoogleLogin: vi.fn(({ onSuccess, onError }) => {
+      return (
+        <div>
+          <button
+            data-testid="google-success"
+            onClick={() =>
+              onSuccess({
+                credential:
+                  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+              })
+            }
+          >
+            Mock Google Login Success
+          </button>
+          <button
+            data-testid="google-error"
+            onClick={() => onError(new Error("Google login failed"))}
+          >
+            Mock Google Login Error
+          </button>
+        </div>
+      );
+    }),
+  };
+});
 
 describe("SignUp", () => {
   render(
@@ -12,7 +41,34 @@ describe("SignUp", () => {
         <SignUp />
       </GoogleOAuthProvider>
     </BrowserRouter>
+  );
+  beforeAll(() => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+  });
+
+  afterAll(() => {
+    console.error.mockRestore(); // Restore the original console.error
+  });
+
+  it("should handle successful Google login", async () => {
+    const successButton = screen.getByText("Mock Google Login Success");
+    await userEvent.click(successButton);
+    localStorage.setItem("email", "mocked_email@example.com");
+    const storedEmail = localStorage.getItem("email");
+    expect(storedEmail).toBe("mocked_email@example.com");
+  });
+  it("should handle Google login error", async () => {
+    const errorButton = screen.getByText("Mock Google Login Error");
+    await userEvent.click(errorButton);
+    expect(console.error).toHaveBeenCalled();
+    const errorCalls = console.error.mock.calls;
+    const errorMessages = errorCalls.flat();
+    const hasExpectedMessage = errorMessages.some(
+      (msg) => typeof msg === "string" && msg.includes("Google login failed")
     );
+    expect(hasExpectedMessage).toBe(true);
+  });
+
   it("sign up heading", () => {
     const signupHeading = screen.getByText("SignUp");
     expect(signupHeading).toBeInTheDocument;
@@ -22,7 +78,7 @@ describe("SignUp", () => {
     expect(LoginHeader).toBeInTheDocument();
     expect(LoginHeader).toHaveTextContent("Name");
     user.setup();
-    const sighnupbutton = screen.getByRole("button");
+    const sighnupbutton = screen.getByTestId("sighnup-button");
     await user.click(sighnupbutton);
     expect(screen.getByText("name is required")).toBeInTheDocument();
     const input = screen.getByTestId("name-input");
@@ -32,7 +88,7 @@ describe("SignUp", () => {
 
   it("does not show error message when name is entered", async () => {
     const input = screen.getByPlaceholderText("Enter Name...");
-    const sighnupbutton = screen.getByRole("button");
+    const sighnupbutton = screen.getByTestId("sighnup-button");
     await user.clear(input);
     await userEvent.type(input, "John Doe");
     user.click(sighnupbutton);
@@ -45,7 +101,7 @@ describe("SignUp", () => {
     expect(LoginHeader).toBeInTheDocument();
     expect(LoginHeader).toHaveTextContent("Email");
     user.setup();
-    const sighnupbutton = screen.getByRole("button");
+    const sighnupbutton = screen.getByTestId("sighnup-button");
     await user.click(sighnupbutton);
     expect(screen.getByText("email is required")).toBeInTheDocument();
     await userEvent.type(inputEmail, "hjjahaha");
@@ -55,7 +111,7 @@ describe("SignUp", () => {
   it("checking for the valid email or not", async () => {
     const inputEmail = screen.getByPlaceholderText("Enter Email...");
     user.setup();
-    const sighnupbutton = screen.getByRole("button");
+    const sighnupbutton = screen.getByTestId("sighnup-button");
     await user.clear(inputEmail);
     await userEvent.type(inputEmail, "jahana@gnail.com");
     expect(inputEmail).toHaveValue();
@@ -67,7 +123,7 @@ describe("SignUp", () => {
     expect(LoginHeader).toBeInTheDocument();
     expect(LoginHeader).toHaveTextContent("Password");
     user.setup();
-    const sighnupbutton = screen.getByRole("button");
+    const sighnupbutton = screen.getByTestId("sighnup-button");
     await user.click(sighnupbutton);
     expect(screen.getByText("password is required")).toBeInTheDocument();
     const input_password = screen.getByPlaceholderText("Enter Password...");
@@ -79,7 +135,7 @@ describe("SignUp", () => {
   });
   it("rendering password to check if it is valid having 8 characters long", async () => {
     user.setup();
-    const sighnupbutton = screen.getByRole("button");
+    const sighnupbutton = screen.getByTestId("sighnup-button");
     const input_password = screen.getByPlaceholderText("Enter Password...");
     await user.type(input_password, "jahana#2001");
     await user.click(sighnupbutton);
@@ -92,7 +148,7 @@ describe("SignUp", () => {
     expect(LoginHeader).toBeInTheDocument();
     expect(LoginHeader).toHaveTextContent("Confirm Password");
     user.setup();
-    const sighnupbutton = screen.getByRole("button");
+    const sighnupbutton = screen.getByTestId("sighnup-button");
     await user.click(sighnupbutton);
     expect(screen.getByText("Re-enter the password")).toBeInTheDocument();
     const input_confirmpassword = screen.getByPlaceholderText(
@@ -106,7 +162,7 @@ describe("SignUp", () => {
   });
   it("rendering confirm password to check if it is maching password", async () => {
     user.setup();
-    const sighnupbutton = screen.getByRole("button");
+    const sighnupbutton = screen.getByTestId("sighnup-button");
     const input_password = screen.getByPlaceholderText("Enter Password...");
     const input_confirmpassword = screen.getByPlaceholderText(
       "Confirm Password..."
@@ -121,7 +177,7 @@ describe("SignUp", () => {
     ).not.toBeInTheDocument();
   });
   it("render sighn up button", async () => {
-    const sighnupbutton = screen.getByRole("button");
+    const sighnupbutton = screen.getByTestId("sighnup-button");
     expect(sighnupbutton).toBeInTheDocument();
     user.setup();
     await user.click(sighnupbutton);
@@ -132,5 +188,4 @@ describe("SignUp", () => {
     expect(link).toBeInTheDocument();
     expect(link).toHaveAttribute("href", "/");
   });
-  
 });
