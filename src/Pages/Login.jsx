@@ -26,6 +26,7 @@ export default function Login() {
     }, 1000);
     const loginEmail = data.email;
     const item = localStorage.getItem(loginEmail);
+    console.log(item, 'items here bbb');
     if (!item) {
       console.log(showLoader);
       setError(ERROR_MESSAGES.ACCOUNT_NOT_EXIST);
@@ -123,7 +124,7 @@ export default function Login() {
             <p className="error-message">{errors.password.message}</p>
           )}
         </div>
-        <button className="login-button" disabled={showLoader}>
+        <button data-testid="login-btn" className="login-button" disabled={showLoader}>
           {!showLoader ? "Login" : <Loader className="spinner" />}
         </button>
         <div className="login-text-box">

@@ -47,17 +47,17 @@ describe("SignUp", () => {
   });
 
   afterAll(() => {
-    console.error.mockRestore(); // Restore the original console.error
+    console.error.mockRestore(); 
   });
 
-  it("should handle successful Google login", async () => {
+  it("should handle successful Google sighup", async () => {
     const successButton = screen.getByText("Mock Google Login Success");
     await userEvent.click(successButton);
     localStorage.setItem("email", "mocked_email@example.com");
     const storedEmail = localStorage.getItem("email");
     expect(storedEmail).toBe("mocked_email@example.com");
   });
-  it("should handle Google login error", async () => {
+  it("should handle Google sighnup error", async () => {
     const errorButton = screen.getByText("Mock Google Login Error");
     await userEvent.click(errorButton);
     expect(console.error).toHaveBeenCalled();
