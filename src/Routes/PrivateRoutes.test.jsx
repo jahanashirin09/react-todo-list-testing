@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach } from "vitest";
-import { render } from "@testing-library/react";
+import {screen, render } from "@testing-library/react";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
 import { vi } from "vitest";
 import PrivateRoutes from "./PrivateRoutes";
@@ -22,7 +22,7 @@ describe("PrivateRoutes", () => {
   it("renders Outlet when authenticated", () => {
     mockLocalStorage.getItem.mockReturnValue("true");
 
-    const { getByText } = render(
+    render(
       <MemoryRouter initialEntries={["/private"]}>
         <Routes>
           <Route path="/private" element={<PrivateRoutes />}>
@@ -33,13 +33,13 @@ describe("PrivateRoutes", () => {
       </MemoryRouter>
     );
 
-    expect(getByText("Private Content")).toBeInTheDocument();
+    expect(screen.getByText("Private Content")).toBeInTheDocument();
   });
 
   it("navigates to home when not authenticated", () => {
     mockLocalStorage.getItem.mockReturnValue(null);
 
-    const { getByText } = render(
+    render(
       <MemoryRouter initialEntries={["/private"]}>
         <Routes>
           <Route path="/private" element={<PrivateRoutes />}>
@@ -50,6 +50,6 @@ describe("PrivateRoutes", () => {
       </MemoryRouter>
     );
 
-    expect(getByText("Home")).toBeInTheDocument();
+    expect(screen.getByText("Home")).toBeInTheDocument();
   });
 });

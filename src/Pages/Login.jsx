@@ -4,7 +4,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
-import { ReactComponent as Loader } from "../assets/images/Loader.svg";
+import Loader from "../assets/images/Loader.svg?url"; 
+
 
 export default function Login() {
   const [showLoader, setShowLoader] = useState(false);
@@ -96,6 +97,7 @@ export default function Login() {
           {error && <p className="error-messages">{error}</p>}
           <label role="label">Email</label>
           <input
+          data-testid="login_email"
             placeholder="Enter Email..."
             {...register("email", {
               required: {
@@ -111,6 +113,7 @@ export default function Login() {
         <div className="form-group">
           <label role="label">Password</label>
           <input
+          data-testid="login_password"
             placeholder="Enter Password..."
             type="password"
             {...register("password", {
@@ -125,7 +128,8 @@ export default function Login() {
           )}
         </div>
         <button data-testid="login-btn" className="login-button" disabled={showLoader}>
-          {!showLoader ? "Login" : <Loader className="spinner" />}
+          {!showLoader ? "Login" : <img src={Loader} alt="Loading..." className="spinner" />
+        }
         </button>
         <div className="login-text-box">
           Don&apos;t have an account? <NavLink to="/signUp"> SignUp </NavLink>

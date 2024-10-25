@@ -53,7 +53,8 @@ describe("Login Page", () => {
     await userEvent.type(login_password, '1234567890');
     await userEvent.click(screen.getByTestId("login-btn"));
   
-    expect(await screen.queryByText(ERROR_MESSAGES.ACCOUNT_NOT_EXIST)).not.toBeInTheDocument();
+    expect(await screen.getByText(ERROR_MESSAGES.ACCOUNT_NOT_EXIST)).toBeInTheDocument();
   });
+  
   
 });
