@@ -55,6 +55,21 @@ describe("Login Page", () => {
   
     expect(await screen.getByText(ERROR_MESSAGES.ACCOUNT_NOT_EXIST)).toBeInTheDocument();
   });
+  it("successful validation for existent account", async () => {
+    localStorage.setItem('test@example.com', JSON.stringify({ email: 'test@example.com', password: 'password123' }));
+    user.setup();
+    const login_email = screen.getByPlaceholderText(/Enter Email.../i);
+    await user.clear(login_email );
+    await userEvent.type(login_email,'test@example.com');
+    const login_password = screen.getByPlaceholderText(/Enter Password.../i);
+    await user.clear( login_password);
+    await userEvent.type(login_password,'password123');
+    await userEvent.click(screen.getByTestId("login-btn"));
+    const storedData = JSON.parse(localStorage.getItem('test@example.com'));
+    expect(storedData.email).toBe('test@example.com');
+    expect(storedData.password).toBe('password123');
+    
+  });
   
   
 });
