@@ -43,13 +43,10 @@ describe("SignUp", () => {
     </BrowserRouter>
   );
   beforeAll(() => {
-    vi.spyOn(console, "error").mockImplementation(() => {});
-  });
-
+    vi.spyOn(console, "error").mockImplementation(() => {});});
   afterAll(() => {
     console.error.mockRestore(); 
   });
-
   it("should handle successful Google sighup", async () => {
     const successButton = screen.getByText("Mock Google Login Success");
     await userEvent.click(successButton);
@@ -85,7 +82,6 @@ describe("SignUp", () => {
     await userEvent.type(input, "John Doe");
     expect(input.value).toBe("John Doe");
   });
-
   it("does not show error message when name is entered", async () => {
     const input = screen.getByPlaceholderText("Enter Name...");
     const sighnupbutton = screen.getByTestId("sighnup-button");
@@ -94,7 +90,6 @@ describe("SignUp", () => {
     user.click(sighnupbutton);
     expect(screen.queryByText("name is required")).toBeNull();
   });
-
   it("rendering sighnup email and  check if the email filed is empty ", async () => {
     const LoginHeader = screen.getByTestId("email");
     const inputEmail = screen.getByPlaceholderText("Enter Email...");
@@ -129,9 +124,7 @@ describe("SignUp", () => {
     const input_password = screen.getByPlaceholderText("Enter Password...");
     await user.type(input_password, "jah4");
     await user.click(sighnupbutton);
-    expect(
-      screen.queryByText("password must be atleast 8 character long")
-    ).toBeInTheDocument();
+    expect(screen.queryByText("password must be atleast 8 character long")).toBeInTheDocument();
   });
   it("rendering password to check if it is valid having 8 characters long", async () => {
     user.setup();
@@ -139,9 +132,7 @@ describe("SignUp", () => {
     const input_password = screen.getByPlaceholderText("Enter Password...");
     await user.type(input_password, "jahana#2001");
     await user.click(sighnupbutton);
-    expect(
-      screen.queryByText("password must be atleast 8 character long")
-    ).toBeNull();
+    expect(screen.queryByText("password must be atleast 8 character long")).toBeNull();
   });
   it("rendering confirm password to check if it is valid or not matching to password", async () => {
     const LoginHeader = screen.getByTestId("confirm-password");
@@ -151,9 +142,7 @@ describe("SignUp", () => {
     const sighnupbutton = screen.getByTestId("sighnup-button");
     await user.click(sighnupbutton);
     expect(screen.getByText("Re-enter the password")).toBeInTheDocument();
-    const input_confirmpassword = screen.getByPlaceholderText(
-      "Confirm Password..."
-    );
+    const input_confirmpassword = screen.getByPlaceholderText("Confirm Password...");
     const input_password = screen.getByPlaceholderText("Enter Password...");
     await user.type(input_password, "jahana#2001");
     await user.type(input_confirmpassword, "jahana#2002");
@@ -164,17 +153,13 @@ describe("SignUp", () => {
     user.setup();
     const sighnupbutton = screen.getByTestId("sighnup-button");
     const input_password = screen.getByPlaceholderText("Enter Password...");
-    const input_confirmpassword = screen.getByPlaceholderText(
-      "Confirm Password..."
-    );
+    const input_confirmpassword = screen.getByPlaceholderText("Confirm Password...");
     await user.clear(input_password);
     await user.clear(input_confirmpassword);
     await user.type(input_password, "jahana#2001");
     await user.type(input_confirmpassword, "jahana#2001");
     await user.click(sighnupbutton);
-    expect(
-      screen.queryByText("passwords do not match")
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText("passwords do not match")).not.toBeInTheDocument();
   });
   it("render sighn up button", async () => {
     const sighnupbutton = screen.getByTestId("sighnup-button");

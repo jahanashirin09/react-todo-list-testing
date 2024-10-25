@@ -5,6 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import user, { userEvent } from "@testing-library/user-event";
 describe("Login Page", () => {
+ 
   const ERROR_MESSAGES = {
     ACCOUNT_NOT_EXIST: "Account doesn't exist",
     INVALID_USER: "Invalid user",
@@ -21,14 +22,10 @@ describe("Login Page", () => {
       </GoogleOAuthProvider>
     </BrowserRouter>
   );
-  
-
   it("renders the login form", () => {
     expect(screen.getByTestId("LoginHeader")).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/Enter Email.../i)).toBeInTheDocument();
-    expect(
-      screen.getByPlaceholderText(/Enter Password.../i)
-    ).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/Enter Password.../i)).toBeInTheDocument();
   });
   it("shows error when email is not provided", async () => {
     user.setup();
@@ -66,6 +63,8 @@ describe("Login Page", () => {
     await userEvent.click(screen.getByTestId("login-btn"));
     expect(await screen.getByText(ERROR_MESSAGES.ACCOUNT_NOT_EXIST)).toBeInTheDocument();
   }); 
+ 
+
   it("shows error for invalid  account details", async () => {
     localStorage.setItem('test@example.com', JSON.stringify({ email: 'test@example.com', password: 'password123' }));
     user.setup();
@@ -82,7 +81,6 @@ describe("Login Page", () => {
     expect(localStorage.getItem("LoginStatus")).toBe(null)
   }); 
   it("successful validation for existent account", async () => {
-
     localStorage.setItem('test@example.com', JSON.stringify({ email: 'test@example.com', password: 'password123' }));
     user.setup();
     const login_email = screen.getByPlaceholderText(/Enter Email.../i);
@@ -96,6 +94,4 @@ describe("Login Page", () => {
     expect(storedData.email).toBe('test@example.com');
     expect(storedData.password).toBe('password123'); 
   });
-  
-  
 });
