@@ -7,7 +7,7 @@ import user from "@testing-library/user-event";
 describe("Logout Component", () => {
   render(
     <BrowserRouter>
-      <Logout/>
+      <Logout />
     </BrowserRouter>
   );
 

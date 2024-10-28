@@ -1,4 +1,4 @@
-import { describe, expect, it, vi, afterEach, } from "vitest";
+import { describe, expect, it, vi, afterEach } from "vitest";
 import { screen, render } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import PageNavigation from "./PageNavigation";
@@ -46,4 +46,3 @@ describe("PageNavigation", () => {
     expect(screen.queryByText("List Page")).not.toBeInTheDocument();
   });
 });
-

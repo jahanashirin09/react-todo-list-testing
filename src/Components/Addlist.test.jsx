@@ -1,4 +1,4 @@
-import { describe, expect, it,  vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import Addlist from "./Addlist";
@@ -49,19 +49,18 @@ describe("Addlist Component", () => {
     expect(screen.queryByText("delete")).not.toBeInTheDocument();
   });
   it("complete the task", async () => {
- 
     const input = screen.getByTestId("input-task");
     const button = screen.getByRole("button", { name: /add task/i });
     await userEvent.type(input, "complete");
     await user.click(button);
     const completeButtons = screen.getAllByRole("button", { name: "complete" });
-    const completed_element = completeButtons[completeButtons.length -1];
+    const completed_element = completeButtons[completeButtons.length - 1];
     await user.click(completed_element);
-    const firstTaskInput = screen.getByDisplayValue('updated');
-    expect(firstTaskInput).toHaveClass('text-task');
-    expect(firstTaskInput).not.toHaveClass('text-taskcompleted');
-    const secondTaskInput = screen.getByDisplayValue('complete');
-    expect(secondTaskInput).toHaveClass('text-taskcompleted');
+    const firstTaskInput = screen.getByDisplayValue("updated");
+    expect(firstTaskInput).toHaveClass("text-task");
+    expect(firstTaskInput).not.toHaveClass("text-taskcompleted");
+    const secondTaskInput = screen.getByDisplayValue("complete");
+    expect(secondTaskInput).toHaveClass("text-taskcompleted");
   });
   it("render the logout component ", async () => {
     expect(screen.getByText("logout")).toBeInTheDocument();

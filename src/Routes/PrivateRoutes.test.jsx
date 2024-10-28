@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach } from "vitest";
-import {screen, render } from "@testing-library/react";
+import { screen, render } from "@testing-library/react";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
 import { vi } from "vitest";
 import PrivateRoutes from "./PrivateRoutes";
